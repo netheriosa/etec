@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desenvolvimento de Sistemas - Etec João Belarmino</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f8f8;
+            color: #333;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(135deg, #ff3333, #ff6666);
+            color: #ffffff;
+            padding: 80px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 4em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        h2 {
+            font-size: 2.5em;
+            font-weight: 400;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .content {
+            padding: 80px 0;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.5s ease;
+        }
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .icon-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        .icon-item {
+            text-align: center;
+            margin: 20px;
+            transition: all 0.3s ease;
+        }
+        .icon-item:hover {
+            transform: scale(1.1) translateY(-10px);
+        }
+        .icon-item i {
+            font-size: 4em;
+            color: #ff3333;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+        .icon-item:hover i {
+            color: #ff6666;
+        }
+        .background-decoration {
+            position: fixed;
+            font-size: 300px;
+            color: rgba(255, 51, 51, 0.03);
+            z-index: -1;
+            animation: float 6s ease-in-out infinite;
+        }
+        #decoration1 { top: 10%; left: 5%; }
+        #decoration2 { bottom: 10%; right: 5%; }
+        .teacher-profiles {
+            display: flex;
+            overflow-x: auto;
+            padding: 30px 0;
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        .profile {
+            flex: 0 0 auto;
+            width: 140px;
+            margin-right: 30px;
+            text-align: center;
+        }
+        .profile img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #ff3333;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .profile img:hover {
+            transform: scale(1.1) translateY(-5px);
+            border-color: #ff6666;
+        }
+        .profile p {
+            margin-top: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        p, li {
+            font-size: 1.2em;
+            line-height: 1.8;
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>');
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        .geometric-shapes {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shape {
+            position: absolute;
+            opacity: 0.05;
+            animation: float 10s infinite;
+        }
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #ff3333;
+        }
+        .square {
+            width: 80px;
+            height: 80px;
+            background-color: #ff3333;
+            transform: rotate(45deg);
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 50px solid transparent;
+            border-right: 50px solid transparent;
+            border-bottom: 86px solid #ff3333;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        .highlight {
+            color: #ff3333;
+            font-weight: 600;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #ff3333;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(255, 51, 51, 0.3);
+        }
+        .btn:hover {
+            background-color: #ff6666;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 51, 51, 0.4);
+        }
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 40px;
+        }
+        .feature {
+            flex-basis: calc(50% - 20px);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+        }
+        .feature i {
+            font-size: 2em;
+            color: #ff3333;
+            margin-right: 20px;
+        }
+        .hero-shape {
+            position: absolute;
+            z-index: -1;
+            opacity: 0.1;
+        }
+        #hero-shape-1 { top: 5%; left: 5%; width: 150px; height: auto; }
+        #hero-shape-2 { top: 20%; right: 10%; width: 200px; height: auto; }
+        #hero-shape-3 { bottom: 15%; left: 15%; width: 180px; height: auto; }
+        #hero-shape-4 { bottom: 10%; right: 5%; width: 160px; height: auto; }
+    </style>
+</head>
+<body>
+    <div class="background-decoration" id="decoration1">&lt;/&gt;</div>
+    <div class="background-decoration" id="decoration2">{}</div>
+
+    <img src="hero-shape-2.png" alt="Decoração" class="hero-shape" id="hero-shape-1">
+    <img src="hero-shape-2.png" alt="Decoração" class="hero-shape" id="hero-shape-2">
+    <img src="hero-shape-2.png" alt="Decoração" class="hero-shape" id="hero-shape-3">
+    <img src="hero-shape-2.png" alt="Decoração" class="hero-shape" id="hero-shape-4">
+
+    <header>
+        <div class="container">
+            <h1>Desenvolvimento de Sistemas</h1>
+            <h2>Etec João Belarmino</h2>
+        </div>
+        <div class="wave"></div>
+    </header>
+
+    <div class="geometric-shapes">
+        <div class="shape circle" style="top: 20%; left: 10%;"></div>
+        <div class="shape square" style="top: 50%; right: 15%;"></div>
+        <div class="shape triangle" style="bottom: 30%; left: 20%;"></div>
+        <div class="shape circle" style="bottom: 10%; right: 25%;"></div>
+        <div class="shape square" style="top: 70%; left: 40%;"></div>
+        <div class="shape triangle" style="top: 40%; right: 35%;"></div>
+    </div>
+
+    <div class="container content">
+        <div class="card">
+            <h3>Bem-vindo ao Futuro da Tecnologia</h3>
+            <p>O curso de Desenvolvimento de Sistemas da Etec João Belarmino é sua porta de entrada para o mundo da tecnologia. Aqui, você encontrará um programa completo e interativo, projetado para transformar você em um desenvolvedor de sistemas altamente qualificado.</p>
+            <a href="#" class="btn">Saiba Mais</a>
+        </div>
+
+        <div class="card">
+            <h3>Um Curso Completo e Abrangente</h3>
+            <p>Nosso curso tem duração de <span class="highlight">3 anos</span>, oferecendo uma formação aprofundada e prática. Durante este período, você dominará diversas linguagens e tecnologias essenciais para o mercado de trabalho, incluindo:</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-code"></i>
+                    <span>C++ e C#</span>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-php"></i>
+                    <span>PHP</span>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-database"></i>
+                    <span>SQL</span>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-html5"></i>
+                    <span>HTML</span>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-css3-alt"></i>
+                    <span>CSS</span>
+                </div>
+                <div class="feature">
+                    <i class="fab fa-js"></i>
+                    <span>JavaScript</span>
+                </div>
+            </div>
+            <p>Esta combinação de tecnologias proporciona uma base sólida para sua carreira em desenvolvimento de sistemas, preparando você para os desafios do mundo real.</p>
+        </div>
+
+        <div class="card">
+            <h3>Áreas de Estudo</h3>
+            <div class="icon-section">
+                <div class="icon-item">
+                    <i class="fas fa-laptop-code"></i>
+                    <p>Programação Avançada</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-database"></i>
+                    <p>Banco de Dados</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-mobile-alt"></i>
+                    <p>Desenvolvimento Mobile</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-network-wired"></i>
+                    <p>Redes e Infraestrutura</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-cloud"></i>
+                    <p>Computação em Nuvem</p>
+                </div>
+                <div class="icon-item">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>Segurança da Informação</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Nossos Professores Especialistas</h3>
+            <div class="teacher-profiles">
+                <div class="profile">
+                    <a href="professor1.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 1">
+                        <p>Prof. Silva</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor2.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 2">
+                        <p>Profa. Santos</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor3.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 3">
+                        <p>Prof. Oliveira</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor4.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 4">
+                        <p>Profa. Costa</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor5.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 5">
+                        <p>Prof. Ferreira</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor6.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 6">
+                        <p>Profa. Rodrigues</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor7.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 7">
+                        <p>Prof. Almeida</p>
+                    </a>
+                </div>
+                <div class="profile">
+                    <a href="professor8.html" target="_blank">
+                        <img src="https://via.placeholder.com/120" alt="Professor 8">
+                        <p>Profa. Carvalho</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Por que escolher nosso curso?</h3>
+            <ul>
+                <li>Currículo atualizado e alinhado com as demandas do mercado</li>
+                <li>Professores experientes e altamente qualificados</li>
+                <li>Projetos práticos e desenvolvimento de portfólio</li>
+                <li>Oportunidades de estágio e networking</li>
+                <li>Laboratórios equipados com tecnologia de ponta</li>
+                <li>Preparação para certificações reconhecidas no mercado</li>
+            </ul>
+            <a href="#" class="btn">Inscreva-se Agora</a>
+        </div>
+    </div>
+
+    <script>
+        // Animação suave de scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Animação de fade-in para os cards ao rolar a página
+        function fadeInOnScroll() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                const cardTop = card.getBoundingClientRect().top;
+                const cardBottom = card.getBoundingClientRect().bottom;
+                if (cardTop < window.innerHeight - 100 && cardBottom > 0) {
+                    card.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', fadeInOnScroll);
+        window.addEventListener('load', fadeInOnScroll);
+
+        // Animação das formas geométricas
+        const shapes = document.querySelectorAll('.shape');
+        shapes.forEach(shape => {
+            shape.style.animationDelay = `${Math.random() * 5}s`;
+        });
+    </script>
+</body>
+</html>
